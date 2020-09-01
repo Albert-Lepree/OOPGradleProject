@@ -11,4 +11,9 @@ public class Controller {
 
   }
 
+  public void sayMeme(){
+
+    lblOutput.setText("You are dumb");
+  }
+
 }

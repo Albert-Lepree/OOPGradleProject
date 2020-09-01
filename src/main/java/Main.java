@@ -6,9 +6,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+  public static void main(String[] args) { launch(args); }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -16,6 +14,7 @@ public class Main extends Application {
 
     Scene scene = new Scene(root, 300, 275);
 
+    scene.getStylesheets().add("Colors.css");
     primaryStage.setTitle("FXML Welcome");
     primaryStage.setScene(scene);
     primaryStage.show();
