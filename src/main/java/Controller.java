@@ -1,3 +1,4 @@
+import java.awt.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -11,9 +12,11 @@ public class Controller {
 
   }
 
-  public void sayMeme(){
+  @FXML
+  public void saySomething() {
 
-    lblOutput.setText("You are dumb");
+    System.out.println("HAHAHAHa");
+
   }
 
 }
