@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TheController">
   <tabs>
     <Tab text="Product Line">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <GridPane layoutX="200.0" layoutY="25.0">
+                  <GridPane layoutX="14.0" layoutY="14.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -34,21 +34,21 @@
                     </rowConstraints>
                      <children>
                         <Label text="Product Name" />
-                        <TextField GridPane.columnIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtProductInput" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtManufacturerInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label layoutX="10.0" layoutY="16.0" text="Manufacturer" GridPane.rowIndex="1" />
                         <Label layoutX="10.0" layoutY="47.0" text="Item Type" GridPane.rowIndex="2" />
-                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ChoiceBox fx:id="cmbType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Button layoutX="260.0" layoutY="124.0" mnemonicParsing="false" onAction="#saySomething" text="AddProduct" />
-                  <TableView layoutX="200.0" layoutY="189.0" prefHeight="167.0" prefWidth="200.0">
+                  <Button layoutX="14.0" layoutY="105.0" mnemonicParsing="false" onAction="#addProduct" text="AddProduct" />
+                  <TableView layoutX="235.0" layoutY="38.0" prefHeight="317.0" prefWidth="348.0">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
                       <TableColumn prefWidth="75.0" text="C2" />
                     </columns>
                   </TableView>
-                  <Label layoutX="255.0" layoutY="167.0" text="Existing Products" />
+                  <Label layoutX="364.0" layoutY="14.0" text="Existing Products" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -60,7 +60,7 @@
                   <ListView layoutX="14.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" />
                   <ComboBox layoutX="225.0" layoutY="32.0" prefWidth="150.0" />
                   <Label layoutX="255.0" layoutY="14.0" text="Choose Quantiy" />
-                  <Button layoutX="444.0" layoutY="32.0" mnemonicParsing="false" onAction="#saySomething" text="Record Production" />
+                  <Button layoutX="444.0" layoutY="32.0" mnemonicParsing="false" onAction="#addProduct" text="Record Production" />
                </children></AnchorPane>
       </content>
     </Tab>

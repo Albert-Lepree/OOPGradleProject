@@ -15,7 +15,7 @@ public class Main extends Application {
     Scene scene = new Scene(root, 300, 275);
 
     scene.getStylesheets().add("Colors.css");
-    primaryStage.setTitle("FXML Welcome");
+    primaryStage.setTitle("Product Database");
     primaryStage.setScene(scene);
     primaryStage.show();
   }
