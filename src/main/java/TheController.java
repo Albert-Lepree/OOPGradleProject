@@ -45,6 +45,8 @@ public class TheController {
           "INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', '" + manufacturer
               + "', '" + product + "' );";
 
+      outputProducts();
+
       stmt.executeUpdate(insertSql);
 
       // STEP 4: Clean-up environment
@@ -58,15 +60,16 @@ public class TheController {
     }
   }
 
-  public void comboBox(){
-    for(int i = 1; i<=10; i++){ // loops 10 times
-      cmbType.getItems().add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
+  public void comboBox() {
+    for (int i = 1; i <= 10; i++) { // loops 10 times
+      cmbType.getItems()
+          .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
     }
     cmbType.setValue("1");
 
   }
 
-  public void outputProducts(){
+  public void outputProducts() {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/resources";
 
@@ -91,7 +94,8 @@ public class TheController {
       ResultSet rs = stmt.executeQuery(sql);
       System.out.println("ITEM " + " TYPE " + " MANUFACTURER");
       while (rs.next()) {
-        System.out.println(rs.getString(2) + " " +  rs.getString(3) + " " + rs.getString(4)); // output data from database to console
+        System.out.println(rs.getString(2) + " " + rs.getString(3) + " " + rs
+            .getString(4)); // output data from database to console
       }
 
       // STEP 4: Clean-up environment
