@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import java.sql.*;
 import javafx.scene.control.TextField;
@@ -16,6 +17,9 @@ public class TheController {
 
   @FXML
   private ChoiceBox<String> cmbType;
+
+  @FXML
+  private ComboBox<String> cmbQuantity;
 
   @FXML
   void addProduct(ActionEvent event) {
@@ -62,10 +66,10 @@ public class TheController {
 
   public void comboBox() {
     for (int i = 1; i <= 10; i++) { // loops 10 times
-      cmbType.getItems()
+      cmbQuantity.getItems()
           .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
     }
-    cmbType.setValue("1");
+    cmbQuantity.setValue("1");
 
   }
 
@@ -115,4 +119,5 @@ public class TheController {
   }
 
 }
+
 
