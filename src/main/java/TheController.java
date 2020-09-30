@@ -44,9 +44,10 @@ public class TheController {
 
       String product = txtProductInput.getText();
       String manufacturer = txtManufacturerInput.getText();
+      String type = cmbType.getValue();
 
       String insertSql =
-          "INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', '" + manufacturer
+          "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
               + "', '" + product + "' );";
 
       outputProducts();
@@ -62,15 +63,6 @@ public class TheController {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-  }
-
-  public void comboBox() {
-    for (int i = 1; i <= 10; i++) { // loops 10 times
-      cmbQuantity.getItems()
-          .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
-    }
-    cmbQuantity.setValue("1");
-
   }
 
   public void outputProducts() {
@@ -96,6 +88,7 @@ public class TheController {
       String sql = "SELECT * FROM PRODUCT";
 
       ResultSet rs = stmt.executeQuery(sql);
+      System.out.println("\n\n");
       System.out.println("ITEM " + " TYPE " + " MANUFACTURER");
       while (rs.next()) {
         System.out.println(rs.getString(2) + " " + rs.getString(3) + " " + rs
@@ -113,9 +106,73 @@ public class TheController {
     }
   }
 
+  public void comboBox() {
+    for (int i = 1; i <= 10; i++) { // loops 10 times
+      cmbQuantity.getItems()
+          .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
+    }
+    cmbQuantity.setValue("Choose Quantity");
+
+  }
+
+  public void cmbBoxType() {
+    for (ItemType it : ItemType.values()) {
+      cmbType.getItems().add(it.toString());
+    }
+    cmbType.setValue("Select Type");
+  }
+
+  public void widgetTest() {
+    Product a1 = new Widget("Fire stick", "Amazon", ItemType.AUDIO);
+    System.out.println(a1.toString());
+
+    final String JDBC_DRIVER = "org.h2.Driver";
+    final String DB_URL = "jdbc:h2:./res/resources";
+
+    //  Database credentials
+    final String USER = "";
+    final String PASS = "";
+    Connection conn = null;
+    Statement stmt = null;
+
+    try {
+      // STEP 1: Register JDBC driver
+      Class.forName(JDBC_DRIVER);
+
+      //STEP 2: Open a connection
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+      //STEP 3: Execute a query
+      stmt = conn.createStatement();
+
+      String product = a1.name;
+      String manufacturer = a1.manufacturer;
+      String type = a1.type.getiType();
+
+      String insertSql =
+          "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
+              + "', '" + product + "' );";
+
+      stmt.executeUpdate(insertSql);
+
+      // STEP 4: Clean-up environment
+      stmt.close();
+      conn.close();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
   public void initialize() {
     comboBox(); // populates values 1 - 10 in the combobox
     outputProducts(); // outputs data to console
+    cmbBoxType();
+    widgetTest();
+
   }
 
 }
