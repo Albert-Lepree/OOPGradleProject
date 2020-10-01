@@ -11,6 +11,11 @@ public enum ItemType {
     this.iType = iType;
   }
 
+  /*---------------------------------------------------
+  getiType:
+  Returns the value of the string iType, many methods
+  use the enum ItemType as a parameter
+  ---------------------------------------------------*/
   public String getiType(){
     return iType;
   }
