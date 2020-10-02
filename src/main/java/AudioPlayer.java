@@ -1,3 +1,10 @@
+/*---------------------------------------------------
+AudioPlayer Class:
+Intended to instantiate certain values of an audio
+player that a product of a different type wouldnt
+have. I.E. supportedAudioFormats
+---------------------------------------------------*/
+
 public class AudioPlayer extends Product implements MultimediaControl {
 
   String supportedAudioFormats;

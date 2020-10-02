@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -194,6 +195,30 @@ public class TheController {
 
   }
 
+
+  /*---------------------------------------------------
+  testMultimedia:
+  test method to demonstrate the functionality of
+  user interface.
+  ---------------------------------------------------*/
+  public static void testMultimedia() {
+    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    Screen newScreen = new Screen("720x480", 40, 22);
+    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+        MonitorType.LCD);
+    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+    productList.add(newAudioProduct);
+    productList.add(newMovieProduct);
+    for (MultimediaControl p : productList) {
+      System.out.println(p);
+      p.play();
+      p.stop();
+      p.next();
+      p.previous();
+    }
+  }
+
   /*---------------------------------------------------
   intitialize:
   will always be called, essentially the main method
@@ -203,9 +228,6 @@ public class TheController {
     comboBox(); // populates values 1 - 10 in the combobox
     outputProducts(); // outputs data to console
     cmbBoxType();
-
-    Product test1 = new AudioPlayer("Fire stick", "Amazon", "MP3", "ROCK");
-    System.out.println(test1.toString());
 
   }
 
