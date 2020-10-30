@@ -26,10 +26,10 @@ public class ProductionRecord {
     this.dateProduced = new Date();
 
 
-    if(product.type == ItemType.AUDIO) {
+    if(product.type == ItemType.AUDIO || product.type == ItemType.AUDIO_MOBILE) {
       countOfAudio++;
       generateSerialNum(countOfAudio); // generates serial number when production record is created.
-    } else if(product.type == ItemType.VISUAL) {
+    } else if(product.type == ItemType.VISUAL || product.type == ItemType.VISUAL_MOBILE) {
       countOfVisual++;
       generateSerialNum(countOfVisual);
     }
@@ -81,9 +81,9 @@ public class ProductionRecord {
     return dateProduced;
   }
 
-  public String generateSerialNum(int countOfAudio) {
+  public String generateSerialNum(int countOfEnum) {
     Random rand = new Random();
-    this.serialNumber = product.getManufacturer().substring(0,3) + product.getType().getiType() + String.format("%06d", countOfAudio)  ;
+    this.serialNumber = product.getManufacturer().substring(0,3) + product.getType().getiType() + String.format("%06d", countOfEnum)  ;
     return  this.serialNumber;
   }
 
