@@ -1,13 +1,31 @@
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import java.sql.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 
 public class TheController {
+
+  final String JDBC_DRIVER = "org.h2.Driver";
+  final String DB_URL = "jdbc:h2:./res/resources";
+
+  //  Database credentials
+  final String USER = "";
+  final String PASS = "";
+  Connection conn = null;
+  Statement stmt = null;
 
 
   @FXML
@@ -22,23 +40,52 @@ public class TheController {
   @FXML
   private ComboBox<String> cmbQuantity;
 
-
-  /*---------------------------------------------------
-  Addproduct:
-  Adds a product to the data base using data from the
-  text fields in the product line tab
-   ---------------------------------------------------*/
   @FXML
-  void addProduct(ActionEvent event) {
-    final String JDBC_DRIVER = "org.h2.Driver";
-    final String DB_URL = "jdbc:h2:./res/resources";
+  private TextArea txtAreaProdLog;
 
-    //  Database credentials
-    final String USER = "";
-    final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+  @FXML
+  private TableView<Product> prodTable;
 
+  @FXML
+  private TableColumn<?, ?> nameCol;
+
+  @FXML
+  private TableColumn<?, ?> manufacturerCol;
+
+  @FXML
+  private TableColumn<?, ?> typeCol;
+
+  @FXML
+  private ListView<String> produceList;
+
+  ObservableList<Product> productArray = FXCollections.observableArrayList();
+  ObservableList<String> productNames = FXCollections.observableArrayList();
+
+  void printProdList() {
+    for (Product item : productArray) {
+      productNames.add(item.getName());
+    }
+    produceList.setItems(productNames);
+  }
+
+  void columns() {
+    nameCol.setCellValueFactory(new PropertyValueFactory("name"));
+    manufacturerCol.setCellValueFactory(new PropertyValueFactory("manufacturer"));
+    typeCol.setCellValueFactory(new PropertyValueFactory("type"));
+
+    prodTable.setItems(productArray);
+  }
+
+  void setAreaProdlog() {
+    Product test = new AudioPlayer("testy", "testy", "test", "test");
+    ProductionRecord test1 = new ProductionRecord(test, 3);
+    System.out.println(test1.toString());
+    System.out.println(test1.getSerialNum());
+
+    txtAreaProdLog.setText(test1.toString());
+  }
+
+  void openConnection() {
     try {
       // STEP 1: Register JDBC driver
       Class.forName(JDBC_DRIVER);
@@ -48,24 +95,50 @@ public class TheController {
 
       //STEP 3: insert a statement
       stmt = conn.createStatement();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
 
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  void closeConnection() {
+    try {
+      // STEP 4: Clean-up environment
+      stmt.close();
+      conn.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /*---------------------------------------------------
+  Addproduct:
+  Adds a product to the data base using data from the
+  text fields in the product line tab
+   ---------------------------------------------------*/
+  @FXML
+  void addProduct(ActionEvent event) {
+
+    try {
+      openConnection();
       String product = txtProductInput.getText();
       String manufacturer = txtManufacturerInput.getText();
       String type = cmbType.getValue();
+
+      Product p1 = new Widget(product, manufacturer,
+          ItemType.valueOf(type)); // creates product widget using the values from gui
+
+      productArray.add(p1); // adds value to the array
 
       String insertSql =
           "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
               + "', '" + product + "' );";
 
-      outputProducts();
-
       stmt.executeUpdate(insertSql);
 
-      // STEP 4: Clean-up environment
-      stmt.close();
-      conn.close();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      closeConnection();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -78,24 +151,8 @@ public class TheController {
   the console when called
   ---------------------------------------------------*/
   public void outputProducts() {
-    final String JDBC_DRIVER = "org.h2.Driver";
-    final String DB_URL = "jdbc:h2:./res/resources";
-
-    //  Database credentials
-    final String USER = "";
-    final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
 
     try {
-      // STEP 1: Register JDBC driver
-      Class.forName(JDBC_DRIVER);
-
-      //STEP 2: Open a connection
-      conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-      //STEP 3: Execute a query
-      stmt = conn.createStatement();
 
       String sql = "SELECT * FROM PRODUCT";
 
@@ -103,15 +160,13 @@ public class TheController {
       System.out.println("\n\n");
       System.out.println("ITEM " + " TYPE " + " MANUFACTURER");
       while (rs.next()) {
-        System.out.println(rs.getString(2) + " " + rs.getString(3) + " " + rs
-            .getString(4)); // output data from database to console
-      }
+        System.out.println(rs.getString(2) + " " + rs.getString(4) + " " + rs
+            .getString(3)); // output data from database to console
 
-      // STEP 4: Clean-up environment
-      stmt.close();
-      conn.close();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+        productArray
+            .add(new Widget(rs.getString(2), rs.getString(4), ItemType.valueOf(rs.getString(3))));
+
+      }
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -128,7 +183,8 @@ public class TheController {
       cmbQuantity.getItems()
           .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
     }
-    cmbQuantity.setValue("Choose Quantity");
+    cmbQuantity.setValue("1");
+    cmbQuantity.setEditable(true);
 
   }
 
@@ -195,7 +251,6 @@ public class TheController {
 
   }
 
-
   /*---------------------------------------------------
   testMultimedia:
   test method to demonstrate the functionality of
@@ -225,9 +280,14 @@ public class TheController {
   of the controller.
   ---------------------------------------------------*/
   public void initialize() {
+    openConnection();
     comboBox(); // populates values 1 - 10 in the combobox
     outputProducts(); // outputs data to console
     cmbBoxType();
+    setAreaProdlog();
+    printProdList();
+    columns();
+    closeConnection();
 
   }
 

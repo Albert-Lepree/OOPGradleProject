@@ -47,15 +47,20 @@ public abstract class Product implements Item {
     return manufacturer;
   }
 
+  public ItemType getType() {
+    return type;
+  }
+
   /*---------------------------------------------------
-  toString:
-  Prints the fields above to the console
-  note: Unsure if the type should be the enum name or
-  the enum values.  ".getiType()"
-  ---------------------------------------------------*/
+    toString:
+    Prints the fields above to the console
+    note: Unsure if the type should be the enum name or
+    the enum values.  ".getiType()"
+    ---------------------------------------------------*/
   public String toString() {
     return "Name: " + name + "\n" +
         "Manufacturer: " + manufacturer + "\n" +
         "Type: " + type + "\n";
+
   }
 }

@@ -14,7 +14,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-    Scene scene = new Scene(root, 300, 275);
+    Scene scene = new Scene(root, 597, 400);
 
     scene.getStylesheets().add("Colors.css");
     primaryStage.setTitle("Product Database");
