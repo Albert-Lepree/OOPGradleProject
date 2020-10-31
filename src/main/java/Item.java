@@ -1,12 +1,12 @@
-public interface Item {
+interface Item {
 
-  public int getId();
+  int getId();
 
-  public String getName();
+  String getName();
 
-  public void setName(String nameIn);
+  void setName(String nameIn);
 
-  public void setManufacturer(String manufacturerIn);
+  void setManufacturer(String manufacturerIn);
 
-  public String getManufacturer();
+  String getManufacturer();
 }

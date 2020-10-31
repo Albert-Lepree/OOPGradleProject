@@ -1,5 +1,4 @@
 import java.util.Date;
-import java.util.Random;
 
 /*---------------------------------------------------
 ProcutionRecord Class:
@@ -21,18 +20,12 @@ public class ProductionRecord {
   private Product product;
 
   ProductionRecord(Product product, int numItems) {
-    this.numItems = numItems;
+    this.numItems = numItems; // never used?
     this.product = product;
     this.dateProduced = new Date();
+    this.serialNumber = generateSerialNum();
 
 
-    if(product.type == ItemType.AUDIO || product.type == ItemType.AUDIO_MOBILE) {
-      countOfAudio++;
-      generateSerialNum(countOfAudio); // generates serial number when production record is created.
-    } else if(product.type == ItemType.VISUAL || product.type == ItemType.VISUAL_MOBILE) {
-      countOfVisual++;
-      generateSerialNum(countOfVisual);
-    }
   }
 
   ProductionRecord(int productID) {
@@ -49,6 +42,9 @@ public class ProductionRecord {
     this.dateProduced = dateProduced;
   }
 
+  /*---------------------------------------------------
+    Setters and Getters (accessors and mutators)
+  ---------------------------------------------------*/
   public void setProductionNum(int productionNumber) {
     this.productionNumber = productionNumber;
   }
@@ -78,19 +74,38 @@ public class ProductionRecord {
   }
 
   public Date getProdDate() {
-    return dateProduced;
+    return new Date(dateProduced.getTime());
   }
 
-  public String generateSerialNum(int countOfEnum) {
-    Random rand = new Random();
-    this.serialNumber = product.getManufacturer().substring(0,3) + product.getType().getiType() + String.format("%06d", countOfEnum)  ;
-    return  this.serialNumber;
+  /*---------------------------------------------------
+    generateSerialNum
+    generates a serial number using the first three
+    letters of the manufacturer + the type value +
+    a number incremented based on the type for
+    every object created.
+  ---------------------------------------------------*/
+  public String generateSerialNum() {
+    int countOfEnum = 0;
+
+    // increments a different variable depending on the enum
+    if (product.type == ItemType.AUDIO || product.type == ItemType.AUDIO_MOBILE) {
+      countOfAudio++;
+      countOfEnum = countOfAudio; // generates serial number when production record is created.
+    } else if (product.type == ItemType.VISUAL || product.type == ItemType.VISUAL_MOBILE) {
+      countOfVisual++;
+      countOfEnum = countOfVisual;
+    }
+
+    this.serialNumber =
+        product.getManufacturer().substring(0, 3) + product.getType().getiType() + String
+            .format("%06d", countOfEnum);
+    return this.serialNumber;
   }
 
   public String toString() {
     return "Prod. Num: " + productionNumber +
-            "  Product ID: " + productID +
-            "  Serial Num: " + serialNumber +
-            "  Date: " + dateProduced;
+        "  Product ID: " + productID +
+        "  Serial Num: " + serialNumber +
+        "  Date: " + dateProduced;
   }
 }

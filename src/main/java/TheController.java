@@ -1,12 +1,17 @@
-import java.util.ArrayList;
+/*---------------------------------------------------
+  Albert Finn Lepree
+  Note:
+  above every method is a comment block to give a
+  better idea of what is going on.
+---------------------------------------------------*/
+
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import java.sql.*;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -14,10 +19,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 
 public class TheController {
 
+  /*---------------------------------------------------
+    global database fields
+  ---------------------------------------------------*/
   final String JDBC_DRIVER = "org.h2.Driver";
   final String DB_URL = "jdbc:h2:./res/resources";
 
@@ -26,8 +33,12 @@ public class TheController {
   final String PASS = "";
   Connection conn = null;
   Statement stmt = null;
+  ResultSet rs;
 
 
+  /*---------------------------------------------------
+    Product Line tab Attributes
+  ---------------------------------------------------*/
   @FXML
   private TextField txtProductInput;
 
@@ -36,12 +47,6 @@ public class TheController {
 
   @FXML
   private ChoiceBox<String> cmbType;
-
-  @FXML
-  private ComboBox<String> cmbQuantity;
-
-  @FXML
-  private TextArea txtAreaProdLog;
 
   @FXML
   private TableView<Product> prodTable;
@@ -55,19 +60,102 @@ public class TheController {
   @FXML
   private TableColumn<?, ?> typeCol;
 
+  /*---------------------------------------------------
+    Produce tab Attributes
+  ---------------------------------------------------*/
+  @FXML
+  private ComboBox<String> cmbQuantity;
+
   @FXML
   private ListView<String> produceList;
 
-  ObservableList<Product> productArray = FXCollections.observableArrayList();
-  ObservableList<String> productNames = FXCollections.observableArrayList();
+  /*---------------------------------------------------
+    Production Log tab Attributes
+  ---------------------------------------------------*/
+  @FXML
+  private TextArea txtAreaProdLog;
 
+  /*---------------------------------------------------
+   Lists to be filled and used throughout the program
+   filled with Products and product records taken from
+   the database.
+  ---------------------------------------------------*/
+  ObservableList<String> productNames = FXCollections.observableArrayList();
+  ObservableList<Product> productArray = FXCollections.observableArrayList();
+  ObservableList<ProductionRecord> productRecords = FXCollections.observableArrayList(); // not functional yet
+
+  /*---------------------------------------------------
+    recordProduction:
+    gets the values from the produce tab.
+    records the produced product to the Database.
+    (not funtional yet)
+  ---------------------------------------------------*/
+  @FXML
+  void recordProduction(ActionEvent event) {
+    int item = produceList.getSelectionModel().getSelectedIndex();
+    int quantIprod = Integer
+        .parseInt(cmbQuantity.getValue()); // gets int from the comboquant box on the produce tab
+
+    ProductionRecord a1 = new ProductionRecord(productArray.get(item),
+        quantIprod); // creates a production record using the selected item.
+
+    txtAreaProdLog
+        .appendText(a1.toString()); // prints the record production to the production log box
+    txtAreaProdLog.appendText("\n");
+
+    // not yet functional
+    /*-----------------------------------------------------------------------------------------------
+    openConnection();
+    try {
+
+      int prodNum  = a1.getProductionNum();
+      int prodID = a1.getProductID();
+      String prodSerialNum = a1.getSerialNum();
+      Date prodDateProduced = a1.getProdDate(); // cant figure out how to convert date into a format that SQL will accept
+
+      productRecords.add(a1); // adds value to the array
+
+      String insertSql =
+          "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '" + prodNum + "', '" + prodID
+              + "', '" + prodSerialNum + "', '" + prodDateProduced +  "' );";
+
+      stmt.executeUpdate(insertSql);
+
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    closeConnection();
+    ----------------------------------------------------------*/
+  }
+
+  /*---------------------------------------------------
+    printLogList():
+    prints the productRecords Array to the ProdLog box
+  ---------------------------------------------------*/
+  void printLogList() {
+    for (ProductionRecord item : productRecords) {
+      txtAreaProdLog.appendText(item.toString());
+    }
+  }
+
+  /*---------------------------------------------------
+    printProdList:
+    prints the productArray array to the produce list.
+    Enhanced for loop also loads an array of strings.
+  ---------------------------------------------------*/
   void printProdList() {
     for (Product item : productArray) {
-      productNames.add(item.getName());
+      productNames.add(item.toString());
     }
     produceList.setItems(productNames);
   }
 
+  /*---------------------------------------------------
+    columns:
+    populates the columns in table view with data from
+    the array "productArray."
+  ---------------------------------------------------*/
   void columns() {
     nameCol.setCellValueFactory(new PropertyValueFactory("name"));
     manufacturerCol.setCellValueFactory(new PropertyValueFactory("manufacturer"));
@@ -76,15 +164,10 @@ public class TheController {
     prodTable.setItems(productArray);
   }
 
-  void setAreaProdlog() {
-    Product test = new AudioPlayer("testy", "testy", "test", "test");
-    ProductionRecord test1 = new ProductionRecord(test, 3);
-    System.out.println(test1.toString());
-    System.out.println(test1.getSerialNum());
-
-    txtAreaProdLog.setText(test1.toString());
-  }
-
+  /*---------------------------------------------------
+    openConnection:
+    opens connection to the data base. (duh)
+  ---------------------------------------------------*/
   void openConnection() {
     try {
       // STEP 1: Register JDBC driver
@@ -103,6 +186,10 @@ public class TheController {
     }
   }
 
+  /*---------------------------------------------------
+    closeConnection:
+    closes connection to the data base.
+  ---------------------------------------------------*/
   void closeConnection() {
     try {
       // STEP 4: Clean-up environment
@@ -114,15 +201,17 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-  Addproduct:
+  addProduct:
   Adds a product to the data base using data from the
   text fields in the product line tab
    ---------------------------------------------------*/
   @FXML
   void addProduct(ActionEvent event) {
 
+    openConnection();
+
     try {
-      openConnection();
+
       String product = txtProductInput.getText();
       String manufacturer = txtManufacturerInput.getText();
       String type = cmbType.getValue();
@@ -138,34 +227,35 @@ public class TheController {
 
       stmt.executeUpdate(insertSql);
 
-      closeConnection();
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    closeConnection();
   }
 
   /*---------------------------------------------------
-  OutputProducts:
-  Gets the data from the database and outputs it to
-  the console when called
+  PopulateArrays:
+  gets the data from the data base to be used in the gui.
   ---------------------------------------------------*/
-  public void outputProducts() {
+  public void populateArrays() {
 
     try {
 
+      // populates the productArray array from the product table in the database
       String sql = "SELECT * FROM PRODUCT";
-
-      ResultSet rs = stmt.executeQuery(sql);
-      System.out.println("\n\n");
-      System.out.println("ITEM " + " TYPE " + " MANUFACTURER");
+      rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        System.out.println(rs.getString(2) + " " + rs.getString(4) + " " + rs
-            .getString(3)); // output data from database to console
-
         productArray
             .add(new Widget(rs.getString(2), rs.getString(4), ItemType.valueOf(rs.getString(3))));
+      }
 
+      // populates the productRecord array from the productionrecords table in the database
+      sql = "SELECT * FROM PRODUCTIONRECORD";
+      rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        productRecords
+            .add(new ProductionRecord(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4)));
       }
 
     } catch (SQLException e) {
@@ -201,80 +291,6 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-  widgetTest:
-  A test method used to test the Enum class ItemType
-  only functionality is to add a literal to the database
-  using the enum other extended classes
-  ---------------------------------------------------*/
-  public void widgetTest() {
-    Product a1 = new Widget("Fire stick", "Amazon", ItemType.AUDIO);
-    System.out.println(a1.toString());
-
-    final String JDBC_DRIVER = "org.h2.Driver";
-    final String DB_URL = "jdbc:h2:./res/resources";
-
-    //  Database credentials
-    final String USER = "";
-    final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
-
-    try {
-      // STEP 1: Register JDBC driver
-      Class.forName(JDBC_DRIVER);
-
-      //STEP 2: Open a connection
-      conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-      //STEP 3: Execute a query
-      stmt = conn.createStatement();
-
-      String product = a1.name;
-      String manufacturer = a1.manufacturer;
-      String type = a1.type.getiType();
-
-      String insertSql =
-          "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
-              + "', '" + product + "' );";
-
-      stmt.executeUpdate(insertSql);
-
-      // STEP 4: Clean-up environment
-      stmt.close();
-      conn.close();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-  }
-
-  /*---------------------------------------------------
-  testMultimedia:
-  test method to demonstrate the functionality of
-  user interface.
-  ---------------------------------------------------*/
-  public static void testMultimedia() {
-    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
-        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
-    Screen newScreen = new Screen("720x480", 40, 22);
-    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
-        MonitorType.LCD);
-    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
-    productList.add(newAudioProduct);
-    productList.add(newMovieProduct);
-    for (MultimediaControl p : productList) {
-      System.out.println(p);
-      p.play();
-      p.stop();
-      p.next();
-      p.previous();
-    }
-  }
-
-  /*---------------------------------------------------
   intitialize:
   will always be called, essentially the main method
   of the controller.
@@ -282,11 +298,11 @@ public class TheController {
   public void initialize() {
     openConnection();
     comboBox(); // populates values 1 - 10 in the combobox
-    outputProducts(); // outputs data to console
-    cmbBoxType();
-    setAreaProdlog();
-    printProdList();
-    columns();
+    populateArrays(); // populates arrays with data from the data base.
+    cmbBoxType(); // populates combobox with ItemTypes
+    printProdList(); // prints the production list
+    printLogList(); // prints logs to prodLogs tab
+    columns(); // populates columns using arrays.
     closeConnection();
 
   }

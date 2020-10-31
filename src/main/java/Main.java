@@ -1,3 +1,10 @@
+/*---------------------------------------------------
+  Albert Finn Lepree
+  Note:
+  above every method is a comment block to give a
+  better idea of what is going on.
+---------------------------------------------------*/
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

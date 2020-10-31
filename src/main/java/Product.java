@@ -9,7 +9,7 @@ public abstract class Product implements Item {
   Product:
   Default Constructor for Product
   ---------------------------------------------------*/
-  public Product(){
+  public Product() {
   }
 
   /*---------------------------------------------------
