@@ -12,7 +12,7 @@ public class ProductionRecord {
   static int countOfAudio = 0;
   static int countOfVisual = 0;
 
-  private int productionNumber;
+  private static int productionNumber = 0;
   private int productID;
   private String serialNumber;
   private Date dateProduced;
@@ -24,6 +24,7 @@ public class ProductionRecord {
     this.product = product;
     this.dateProduced = new Date();
     this.serialNumber = generateSerialNum();
+    productionNumber++;
 
 
   }

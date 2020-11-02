@@ -82,7 +82,7 @@ public class TheController {
   ---------------------------------------------------*/
   ObservableList<String> productNames = FXCollections.observableArrayList();
   ObservableList<Product> productArray = FXCollections.observableArrayList();
-  ObservableList<ProductionRecord> productRecords = FXCollections.observableArrayList(); // not functional yet
+  ObservableList<ProductionRecord> productRecords = FXCollections.observableArrayList();
 
   /*---------------------------------------------------
     recordProduction:
@@ -96,15 +96,17 @@ public class TheController {
     int quantIprod = Integer
         .parseInt(cmbQuantity.getValue()); // gets int from the comboquant box on the produce tab
 
-    ProductionRecord a1 = new ProductionRecord(productArray.get(item),
-        quantIprod); // creates a production record using the selected item.
+      ProductionRecord a1 = new ProductionRecord(productArray.get(item),
+          quantIprod); // creates a production record using the selected item.
 
-    txtAreaProdLog
-        .appendText(a1.toString()); // prints the record production to the production log box
-    txtAreaProdLog.appendText("\n");
+      txtAreaProdLog
+          .appendText(a1.toString()); // prints the record production to the production log box
+      txtAreaProdLog.appendText("\n");
 
-    // not yet functional
-    /*-----------------------------------------------------------------------------------------------
+      Timestamp ts = new Timestamp(a1.getProdDate().getTime()); // creates a timestamp object using the date from the object
+
+
+
     openConnection();
     try {
 
@@ -117,7 +119,7 @@ public class TheController {
 
       String insertSql =
           "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '" + prodNum + "', '" + prodID
-              + "', '" + prodSerialNum + "', '" + prodDateProduced +  "' );";
+              + "', '" + prodSerialNum + "', '" + ts +  "' );";
 
       stmt.executeUpdate(insertSql);
 
@@ -126,7 +128,7 @@ public class TheController {
       e.printStackTrace();
     }
     closeConnection();
-    ----------------------------------------------------------*/
+
   }
 
   /*---------------------------------------------------
@@ -231,6 +233,7 @@ public class TheController {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    printProdList();
     closeConnection();
   }
 
