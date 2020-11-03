@@ -81,8 +81,8 @@ public class TheController {
    the database.
   ---------------------------------------------------*/
   ObservableList<String> productNames = FXCollections.observableArrayList();
-  ObservableList<Product> productArray = FXCollections.observableArrayList();
-  ObservableList<ProductionRecord> productRecords = FXCollections.observableArrayList();
+  ObservableList<Product> productLine = FXCollections.observableArrayList();
+  ObservableList<ProductionRecord> productionRun = FXCollections.observableArrayList();
 
   /*---------------------------------------------------
     recordProduction:
@@ -96,30 +96,28 @@ public class TheController {
     int quantIprod = Integer
         .parseInt(cmbQuantity.getValue()); // gets int from the comboquant box on the produce tab
 
-      ProductionRecord a1 = new ProductionRecord(productArray.get(item),
-          quantIprod); // creates a production record using the selected item.
+    ProductionRecord a1 = new ProductionRecord(productLine.get(item),
+        quantIprod); // creates a production record using the selected item.
 
-      txtAreaProdLog
-          .appendText(a1.toString()); // prints the record production to the production log box
-      txtAreaProdLog.appendText("\n");
+    txtAreaProdLog
+        .appendText(a1.toString()); // prints the record production to the production log box
 
-      Timestamp ts = new Timestamp(a1.getProdDate().getTime()); // creates a timestamp object using the date from the object
-
-
+    Timestamp ts = new Timestamp(
+        a1.getProdDate().getTime()); // creates a timestamp object using the date from the object
 
     openConnection();
     try {
 
-      int prodNum  = a1.getProductionNum();
+      int prodNum = a1.getProductionNum();
       int prodID = a1.getProductID();
       String prodSerialNum = a1.getSerialNum();
-      Date prodDateProduced = a1.getProdDate(); // cant figure out how to convert date into a format that SQL will accept
 
-      productRecords.add(a1); // adds value to the array
+      productionRun.add(a1); // adds value to the array
 
       String insertSql =
-          "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '" + prodNum + "', '" + prodID
-              + "', '" + prodSerialNum + "', '" + ts +  "' );";
+          "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '"
+              + prodNum + "', '" + prodID
+              + "', '" + prodSerialNum + "', '" + ts + "' );";
 
       stmt.executeUpdate(insertSql);
 
@@ -132,11 +130,47 @@ public class TheController {
   }
 
   /*---------------------------------------------------
+  addProduct:
+  Adds a product to the data base using data from the
+  text fields in the product line tab
+   ---------------------------------------------------*/
+  @FXML
+  void addProduct(ActionEvent event) {
+
+    openConnection();
+
+    try {
+
+      String product = txtProductInput.getText();
+      String manufacturer = txtManufacturerInput.getText();
+      String type = cmbType.getValue();
+
+      Product p1 = new Widget(product, manufacturer,
+          ItemType.valueOf(type)); // creates product widget using the values from gui
+
+      productLine.add(p1); // adds value to the array
+
+      String insertSql =
+          "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
+              + "', '" + product + "' );";
+
+      stmt.executeUpdate(insertSql);
+
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    produceList.getItems().clear();
+    setupProductLineTable();
+    closeConnection();
+  }
+
+  /*---------------------------------------------------
     printLogList():
     prints the productRecords Array to the ProdLog box
   ---------------------------------------------------*/
-  void printLogList() {
-    for (ProductionRecord item : productRecords) {
+  void showProduction() {
+    for (ProductionRecord item : productionRun) {
       txtAreaProdLog.appendText(item.toString());
     }
   }
@@ -146,10 +180,11 @@ public class TheController {
     prints the productArray array to the produce list.
     Enhanced for loop also loads an array of strings.
   ---------------------------------------------------*/
-  void printProdList() {
-    for (Product item : productArray) {
+  void setupProductLineTable() {
+    for (Product item : productLine) {
       productNames.add(item.toString());
     }
+
     produceList.setItems(productNames);
   }
 
@@ -158,12 +193,12 @@ public class TheController {
     populates the columns in table view with data from
     the array "productArray."
   ---------------------------------------------------*/
-  void columns() {
+  void populateColumns() {
     nameCol.setCellValueFactory(new PropertyValueFactory("name"));
     manufacturerCol.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     typeCol.setCellValueFactory(new PropertyValueFactory("type"));
 
-    prodTable.setItems(productArray);
+    prodTable.setItems(productLine);
   }
 
   /*---------------------------------------------------
@@ -203,53 +238,17 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-  addProduct:
-  Adds a product to the data base using data from the
-  text fields in the product line tab
-   ---------------------------------------------------*/
-  @FXML
-  void addProduct(ActionEvent event) {
-
-    openConnection();
-
-    try {
-
-      String product = txtProductInput.getText();
-      String manufacturer = txtManufacturerInput.getText();
-      String type = cmbType.getValue();
-
-      Product p1 = new Widget(product, manufacturer,
-          ItemType.valueOf(type)); // creates product widget using the values from gui
-
-      productArray.add(p1); // adds value to the array
-
-      String insertSql =
-          "INSERT INTO Product(type, manufacturer, name) VALUES ( '" + type + "', '" + manufacturer
-              + "', '" + product + "' );";
-
-      stmt.executeUpdate(insertSql);
-
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    printProdList();
-    closeConnection();
-  }
-
-  /*---------------------------------------------------
   PopulateArrays:
   gets the data from the data base to be used in the gui.
   ---------------------------------------------------*/
   public void populateArrays() {
 
     try {
-
       // populates the productArray array from the product table in the database
       String sql = "SELECT * FROM PRODUCT";
       rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        productArray
+        productLine
             .add(new Widget(rs.getString(2), rs.getString(4), ItemType.valueOf(rs.getString(3))));
       }
 
@@ -257,7 +256,7 @@ public class TheController {
       sql = "SELECT * FROM PRODUCTIONRECORD";
       rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        productRecords
+        productionRun
             .add(new ProductionRecord(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4)));
       }
 
@@ -303,9 +302,9 @@ public class TheController {
     comboBox(); // populates values 1 - 10 in the combobox
     populateArrays(); // populates arrays with data from the data base.
     cmbBoxType(); // populates combobox with ItemTypes
-    printProdList(); // prints the production list
-    printLogList(); // prints logs to prodLogs tab
-    columns(); // populates columns using arrays.
+    setupProductLineTable(); // prints the production list
+    showProduction(); // prints logs to prodLogs tab
+    populateColumns(); // populates columns using arrays.
     closeConnection();
 
   }

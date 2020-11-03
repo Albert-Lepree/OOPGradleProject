@@ -25,8 +25,6 @@ public class ProductionRecord {
     this.dateProduced = new Date();
     this.serialNumber = generateSerialNum();
     productionNumber++;
-
-
   }
 
   ProductionRecord(int productID) {
@@ -107,6 +105,6 @@ public class ProductionRecord {
     return "Prod. Num: " + productionNumber +
         "  Product ID: " + productID +
         "  Serial Num: " + serialNumber +
-        "  Date: " + dateProduced;
+        "  Date: " + dateProduced + "\n";
   }
 }
