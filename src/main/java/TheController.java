@@ -96,34 +96,36 @@ public class TheController {
     int quantIprod = Integer
         .parseInt(cmbQuantity.getValue()); // gets int from the comboquant box on the produce tab
 
-    ProductionRecord a1 = new ProductionRecord(productLine.get(item),
-        quantIprod); // creates a production record using the selected item.
+    for (int i = 0; i < quantIprod; i++) { // adds productionRecord to database and GUI // loops n(number of items produced) times
+      ProductionRecord a1 = new ProductionRecord(productLine.get(item),
+          quantIprod); // creates a production record using the selected item.
 
-    txtAreaProdLog
-        .appendText(a1.toString()); // prints the record production to the production log box
-
-    Timestamp ts = new Timestamp(
-        a1.getProdDate().getTime()); // creates a timestamp object using the date from the object
-
-    openConnection();
-    try {
-
-      int prodNum = a1.getProductionNum();
-      int prodID = a1.getProductID();
-      String prodSerialNum = a1.getSerialNum();
+      txtAreaProdLog
+          .appendText(a1.toString()); // prints the record production to the production log box
 
       productionRun.add(a1); // adds value to the array
 
-      String insertSql =
-          "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '"
-              + prodNum + "', '" + prodID
-              + "', '" + prodSerialNum + "', '" + ts + "' );";
+      Timestamp ts = new Timestamp(
+          a1.getProdDate().getTime()); // creates a timestamp object using the date from the object
 
-      stmt.executeUpdate(insertSql);
+      openConnection();
+      try {
+
+        int prodNum = a1.getProductionNum();
+        int prodID = a1.getProductID();
+        String prodSerialNum = a1.getSerialNum();
+
+        String insertSql =
+            "INSERT INTO ProductionRecord(PRODUCTION_NUM, PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( '"
+                + prodNum + "', '" + prodID
+                + "', '" + prodSerialNum + "', '" + ts + "' );";
+
+        stmt.executeUpdate(insertSql);
 
 
-    } catch (SQLException e) {
-      e.printStackTrace();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
     closeConnection();
 

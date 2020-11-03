@@ -12,7 +12,8 @@ public class ProductionRecord {
   static int countOfAudio = 0;
   static int countOfVisual = 0;
 
-  private static int productionNumber = 0;
+  private int productionNumber = 0;
+  private static int prodNumCount; // I had to make a second prod num count because the static variable was being odd while calling two different types of constructors
   private int productID;
   private String serialNumber;
   private Date dateProduced;
@@ -24,7 +25,7 @@ public class ProductionRecord {
     this.product = product;
     this.dateProduced = new Date();
     this.serialNumber = generateSerialNum();
-    productionNumber++;
+    this.productionNumber = ++prodNumCount;
   }
 
   ProductionRecord(int productID) {
@@ -36,6 +37,7 @@ public class ProductionRecord {
 
   ProductionRecord(int productionNumber, int productID, String serialNumber, Date dateProduced) {
     this.productionNumber = productionNumber;
+    this.prodNumCount = productionNumber;
     this.productID = productID;
     this.serialNumber = serialNumber;
     this.dateProduced = dateProduced;
