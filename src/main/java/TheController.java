@@ -86,7 +86,7 @@ public class TheController {
   ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
   /*---------------------------------------------------
-    recordProduction:
+    addToProductionDB:
     gets the values from the produce tab.
     records the produced product to the Database.
   ---------------------------------------------------*/
@@ -98,8 +98,10 @@ public class TheController {
 
     System.out.println(ProductionRecord.countOfAudio);
 
-    for (int i = 0; i < quantIprod; i++) { // adds productionRecord to database and GUI // loops n(number of items produced) times
-      ProductionRecord a1 = new ProductionRecord(productLine.get(item)); // creates a production record using the selected item.
+    for (int i = 0; i < quantIprod;
+        i++) { // adds productionRecord to database and GUI // loops n(number of items produced) times
+      ProductionRecord a1 = new ProductionRecord(
+          productLine.get(item)); // creates a production record using the selected item.
 
       txtAreaProdLog
           .appendText(a1.toString()); // prints the record production to the production log box
@@ -169,7 +171,7 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-    printLogList():
+    showProduction:
     prints the productRecords Array to the ProdLog box
   ---------------------------------------------------*/
   void showProduction() {
@@ -179,7 +181,7 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-    printProdList:
+    setupProductLineTable:
     prints the productArray array to the produce list.
     Enhanced for loop also loads an array of strings.
   ---------------------------------------------------*/
@@ -191,7 +193,7 @@ public class TheController {
   }
 
   /*---------------------------------------------------
-    columns:
+    populateColumns:
     populates the columns in table view with data from
     the array "productArray."
   ---------------------------------------------------*/
@@ -243,7 +245,7 @@ public class TheController {
   PopulateArrays:
   gets the data from the data base to be used in the gui.
   ---------------------------------------------------*/
-  public void populateArrays() {
+  void populateArrays() {
 
     try {
       // populates the productArray array from the product table in the database
@@ -288,7 +290,7 @@ public class TheController {
   used to add values 1-10 to the combobox
   this will eventually be used in the produce tab
   ---------------------------------------------------*/
-  public void comboBox() {
+  void comboBox() {
     for (int i = 1; i <= 10; i++) { // loops 10 times
       cmbQuantity.getItems()
           .add(String.valueOf(i)); // converts int i to a string and adds it to the combo box
@@ -303,7 +305,7 @@ public class TheController {
   Used to populate the item type box in the product
   line tab.
   ---------------------------------------------------*/
-  public void cmbBoxType() {
+  void cmbBoxType() {
     for (ItemType it : ItemType.values()) {
       cmbType.getItems().add(it.toString());
     }
@@ -315,7 +317,7 @@ public class TheController {
   will always be called, essentially the main method
   of the controller.
   ---------------------------------------------------*/
-  public void initialize() {
+  void initialize() {
     openConnection();
     comboBox(); // populates values 1 - 10 in the combobox
     populateArrays(); // populates arrays with data from the data base.

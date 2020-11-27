@@ -21,6 +21,13 @@ public class Employee {
     }
   }
 
+  /*------------------------------------------
+    setUsername:
+    checks if the name has spaces and sets the
+    username based on that.
+    parameters:
+    name - name used to create and set username
+   -------------------------------------------*/
   private void setUsername(String name) {
     for (int i = 0; i < name.length(); i++) { // loop through the name looking for spaces
       char checkChar = name.charAt(i);
@@ -32,6 +39,12 @@ public class Employee {
 
   }
 
+  /*------------------------------------------
+  setEmail:
+  sets the email using a given name
+  parameters:
+  name - name used to create and set user email
+  -------------------------------------------*/
   private void setEmail(String name) {
 
     String emailName = name.replace(' ', '.');
@@ -40,6 +53,13 @@ public class Employee {
 
   }
 
+  /*------------------------------------------
+  isValidPassword:
+  checks to see if the password has a special,
+  uppercase, and lowercase character.
+  returns boolean based on if the password is valid
+  **valid = true
+  -------------------------------------------*/
   private boolean isValidPassword() {
     boolean lowercase = false;
     boolean uppercase = false;
@@ -66,6 +86,16 @@ public class Employee {
 
   }
 
+  /*------------------------------------------
+    checkName:
+    checks the name for a space and calls
+    set username and setEmail if it does have a
+    space
+    returns a boolean depending on name Validity
+    parameters:
+    name - the name to be checked and used when
+    setting the email and username.
+   -------------------------------------------*/
   private boolean checkName(String name) {
     for (int i = 0; i < name.length(); i++) { // loop through the name looking for spaces
       char checkChar = name.charAt(i);
@@ -80,6 +110,22 @@ public class Employee {
     return false;
 
   } // end checkName
+
+  /*------------------------------------------
+    reverseString:
+    reverses any string passed in.
+    returns reversed string
+    parameters:
+    word - word to be reversed
+   -------------------------------------------*/
+  public String reverseString(String word) {
+    // Paste the code for your reverseString method here.
+    if (word.length() <= 1) {
+      return word;
+    } else {
+      return word.charAt(word.length() - 1) + reverseString(word.substring(0, (word.length() - 1)));
+    }
+  }
 
   public String toString() {
     return "Employee Details\n" +

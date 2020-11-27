@@ -20,7 +20,7 @@ public abstract class Product implements Item {
 
   /*---------------------------------------------------
   Product:
-  Overload contstructor for Product takes enum ItemType
+  Overload constructor for Product takes enum ItemType
   as a parameter.
   ---------------------------------------------------*/
   public Product(String nameIn, String manufacturerIn, ItemType typeIn) {
@@ -31,11 +31,14 @@ public abstract class Product implements Item {
   }
 
   /*---------------------------------------------------
-  Setters & Getter:
-  setters and getters for the fields above
+  Setters & Getters:
   ---------------------------------------------------*/
 
-  // this is an SQL statement to get the product ID using the name
+  /*---------------------------------------------------------
+  getID:
+   this is an SQL statement to get the product ID using the name
+   returns the productID
+   -----------------------------------------------------------*/
   public int getId() {
     int theID = 0;
 
@@ -65,7 +68,6 @@ public abstract class Product implements Item {
       while (rs.next()) {
         theID = rs.getInt("ID");
       }
-
 
       //theID = rs.getInt(1);
       //System.out.println("where am i: " + theID);
@@ -108,6 +110,7 @@ public abstract class Product implements Item {
     Prints the fields above to the console
     note: Unsure if the type should be the enum name or
     the enum values.  ".getiType()"
+    returns a formatted string
     ---------------------------------------------------*/
   public String toString() {
     return "Name: " + name + "\n" +
