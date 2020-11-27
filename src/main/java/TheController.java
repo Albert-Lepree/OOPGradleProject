@@ -5,6 +5,7 @@
   better idea of what is going on.
 ---------------------------------------------------*/
 
+import java.util.ArrayList;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,23 +83,23 @@ public class TheController {
   ---------------------------------------------------*/
   ObservableList<String> productNames = FXCollections.observableArrayList();
   ObservableList<Product> productLine = FXCollections.observableArrayList();
-  ObservableList<ProductionRecord> productionRun = FXCollections.observableArrayList();
+  ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
   /*---------------------------------------------------
     recordProduction:
     gets the values from the produce tab.
     records the produced product to the Database.
-    (not funtional yet)
   ---------------------------------------------------*/
   @FXML
-  void recordProduction(ActionEvent event) {
+  void addToProductionDB(ActionEvent event) {
     int item = produceList.getSelectionModel().getSelectedIndex();
     int quantIprod = Integer
         .parseInt(cmbQuantity.getValue()); // gets int from the comboquant box on the produce tab
 
+    System.out.println(ProductionRecord.countOfAudio);
+
     for (int i = 0; i < quantIprod; i++) { // adds productionRecord to database and GUI // loops n(number of items produced) times
-      ProductionRecord a1 = new ProductionRecord(productLine.get(item),
-          quantIprod); // creates a production record using the selected item.
+      ProductionRecord a1 = new ProductionRecord(productLine.get(item)); // creates a production record using the selected item.
 
       txtAreaProdLog
           .appendText(a1.toString()); // prints the record production to the production log box
@@ -186,7 +187,6 @@ public class TheController {
     for (Product item : productLine) {
       productNames.add(item.toString());
     }
-
     produceList.setItems(productNames);
   }
 
@@ -257,14 +257,30 @@ public class TheController {
       // populates the productRecord array from the productionrecords table in the database
       sql = "SELECT * FROM PRODUCTIONRECORD";
       rs = stmt.executeQuery(sql);
+      int count = 0;
       while (rs.next()) {
         productionRun
             .add(new ProductionRecord(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4)));
+
+        String serialNum = rs.getString(3);
+
+        // if statement to count types for serial number
+        String type = serialNum.substring(3, 5);
+        if (type.equals("AM") || type.equals("AU")) {
+          ProductionRecord.countOfAudio++;
+
+        } else {
+
+          ProductionRecord.countOfVisual++;
+        }
+
       }
+
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    showProduction(); // prints logs to prodLogs tab
   }
 
   /*---------------------------------------------------
@@ -305,7 +321,6 @@ public class TheController {
     populateArrays(); // populates arrays with data from the data base.
     cmbBoxType(); // populates combobox with ItemTypes
     setupProductLineTable(); // prints the production list
-    showProduction(); // prints logs to prodLogs tab
     populateColumns(); // populates columns using arrays.
     closeConnection();
 
