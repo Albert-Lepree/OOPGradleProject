@@ -24,7 +24,7 @@ The markdown is  \!\[Alt text\]\(relative/path/to/img.png) <br />
 
 Such as a class diagram. <br /> 
 The markdown is  \!\[Alt text\]\(relative/path/to/img.png) <br />
- ![Sample Image](docs/9919.png)
+ ![Sample Image](docs/class diagrams.PNG)
 
 ## Getting Started
 
