@@ -22,9 +22,11 @@ The markdown is  \!\[Alt text\]\(relative/path/to/img.png) <br />
 
 ## Diagrams
 
-Such as a class diagram. <br /> 
-The markdown is  \!\[Alt text\]\(relative/path/to/img.png) <br />
- ![Sample Image](https://xexima61.github.io/OOBGradleProject/docs/databaseDiagram.PNG)
+Database Diagram <br /> 
+ ![Sample Image](docs/databaseDiagram.PNG)
+ 
+ Class Diagram <br />
+![Sample Image](docs/classdiagrams.png)
 
 ## Getting Started
 
