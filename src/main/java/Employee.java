@@ -8,6 +8,13 @@ public class Employee {
   String password;
   String email;
 
+  Employee(String name, String username, String password, String email) {
+    this.sBuild = new StringBuilder(name);
+    this.username = username;
+    this.password = password;
+    this.email = email;
+  }
+
   Employee(String name, String password) {
     sBuild = new StringBuilder(name);
     this.password = password;
@@ -118,7 +125,7 @@ public class Employee {
     parameters:
     word - word to be reversed
    -------------------------------------------*/
-  public String reverseString(String word) {
+  public static String reverseString(String word) {
     // Paste the code for your reverseString method here.
     if (word.length() <= 1) {
       return word;

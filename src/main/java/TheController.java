@@ -5,12 +5,17 @@
   better idea of what is going on.
 ---------------------------------------------------*/
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import java.sql.*;
@@ -20,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class TheController {
 
@@ -75,6 +81,12 @@ public class TheController {
   ---------------------------------------------------*/
   @FXML
   private TextArea txtAreaProdLog;
+
+  /*---------------------------------------------------
+    Employee Tab Attributes
+  ---------------------------------------------------*/
+  @FXML
+  public static TextArea empTxtArea;
 
   /*---------------------------------------------------
    Lists to be filled and used throughout the program
@@ -259,7 +271,6 @@ public class TheController {
       // populates the productRecord array from the productionrecords table in the database
       sql = "SELECT * FROM PRODUCTIONRECORD";
       rs = stmt.executeQuery(sql);
-      int count = 0;
       while (rs.next()) {
         productionRun
             .add(new ProductionRecord(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4)));
@@ -317,7 +328,7 @@ public class TheController {
   will always be called, essentially the main method
   of the controller.
   ---------------------------------------------------*/
-  void initialize() {
+  public void initialize() {
     openConnection();
     comboBox(); // populates values 1 - 10 in the combobox
     populateArrays(); // populates arrays with data from the data base.
@@ -325,6 +336,7 @@ public class TheController {
     setupProductLineTable(); // prints the production list
     populateColumns(); // populates columns using arrays.
     closeConnection();
+
 
   }
 
