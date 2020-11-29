@@ -19,11 +19,11 @@ public class Employee {
     sBuild = new StringBuilder(name);
     this.password = password;
 
-    if (checkName(name) == false) {
+    if (!checkName(name)) {
       this.email = "user@oracleacademy.Test";
     }
 
-    if (isValidPassword() == false) {
+    if (!isValidPassword()) {
       this.password = "pw";
     }
   }
@@ -78,14 +78,12 @@ public class Employee {
     boolean isStringContainsSpecialCharacter = matcher.find();
     if (isStringContainsSpecialCharacter) {
       special = true;
-    } else {
-      special = false;
     }
 
     uppercase = !password.equals(password.toLowerCase());
     lowercase = !password.equals(password.toUpperCase());
 
-    if (lowercase == true && uppercase == true && special == true) {
+    if (lowercase && uppercase && special) {
       return true;
     } else {
       return false;
@@ -135,7 +133,7 @@ public class Employee {
   }
 
   public String toString() {
-    return "Employee Details\n" +
+    return
         "Name : " + sBuild + "\n" +
         "Username : " + username + "\n" +
         "Email : " + email + "\n" +

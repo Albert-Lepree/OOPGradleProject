@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 
@@ -42,8 +41,8 @@ public class loginController {
     //  Database credentials
     final String USER = "";
     final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+    Connection conn;
+    Statement stmt;
 
     try {
       // STEP 1: Register JDBC driver
@@ -77,9 +76,6 @@ public class loginController {
       stmt.close();
       conn.close();
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-
-    } catch (SQLException e) {
       e.printStackTrace();
     }
 

@@ -9,7 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.stage.Stage;
@@ -36,9 +35,6 @@ public class newEmployeeController {
   @FXML
   void createNewAccount(ActionEvent event) throws IOException {
 
-    Employee employee = new Employee(fullName.getText(), Username.getText(), password.getText(),
-        Email.getText());
-
     String passwordToInsert = Employee
         .reverseString(password.getText()); // reverses the password for security
 
@@ -48,8 +44,8 @@ public class newEmployeeController {
     //  Database credentials
     final String USER = "";
     final String PASS = "";
-    Connection conn = null;
-    Statement stmt = null;
+    Connection conn;
+    Statement stmt;
 
     try {
       // STEP 1: Register JDBC driver
