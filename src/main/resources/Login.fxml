@@ -56,7 +56,7 @@
             <Image url="@../../../../../../OneDrive/Pictures/Capture.JPG" />
          </image>
       </ImageView>
-      <Button layoutX="354.0" layoutY="215.0" mnemonicParsing="false" onAction="#newUserButton" prefHeight="25.0" prefWidth="135.0" text="Create new Account">
+      <Button layoutX="354.0" layoutY="213.0" mnemonicParsing="false" onAction="#newUserButton" prefHeight="25.0" prefWidth="135.0" text="Create new Account">
          <font>
             <Font size="11.0" />
          </font>

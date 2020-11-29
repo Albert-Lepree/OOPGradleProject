@@ -24,8 +24,13 @@ public class loginController {
   private PasswordField password;
 
   @FXML
-  private Label passIncorrect;
+  private Label passIncorrect; // label to be set to visible if pass is incorrect
 
+  /*------------------------------------------------------
+    loginButton:
+    code to be executed when the login button is hit
+    checks the database to see if user/pass is correct
+  --------------------------------------------------------*/
   @FXML
   public void loginButton(ActionEvent event) throws Exception {
 
@@ -52,15 +57,15 @@ public class loginController {
 
       String sql = "SELECT * FROM EMPLOYEE WHERE USERNAME = '" + username.getText() + "'";
 
-      System.out.println(sql);
-
-
         ResultSet rs = stmt.executeQuery(sql);
 
         if (rs.next()) {
           String thePass = rs.getString(3);
           String flippedPass = Employee.reverseString(thePass);
           String inputtedPassword = password.getText();
+
+          TheController.employee = new Employee(rs.getString(2), rs.getString(1),
+              flippedPass, rs.getString(4));
 
           if (flippedPass.equals(inputtedPassword)) {
             passwordCorrect = true;
@@ -88,11 +93,17 @@ public class loginController {
       window.setScene(scene);
       window.show();
 
+
     } else {
       passIncorrect.setVisible(true);
     }
   }
 
+  /*------------------------------------------------------
+    newUserButton:
+    changes scene to the "newEmployee.fxml" so that the
+    user can creat a new account
+  --------------------------------------------------------*/
   @FXML
   public void newUserButton(ActionEvent event) throws Exception {
 
@@ -105,6 +116,5 @@ public class loginController {
     window.setScene(scene);
     window.show();
   }
-
 
 }

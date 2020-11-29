@@ -86,7 +86,7 @@ public class TheController {
     Employee Tab Attributes
   ---------------------------------------------------*/
   @FXML
-  public static TextArea empTxtArea;
+  private TextArea empTxtArea;
 
   /*---------------------------------------------------
    Lists to be filled and used throughout the program
@@ -96,6 +96,8 @@ public class TheController {
   ObservableList<String> productNames = FXCollections.observableArrayList();
   ObservableList<Product> productLine = FXCollections.observableArrayList();
   ArrayList<ProductionRecord> productionRun = new ArrayList<>();
+
+  static Employee employee;
 
   /*---------------------------------------------------
     addToProductionDB:
@@ -335,6 +337,7 @@ public class TheController {
     cmbBoxType(); // populates combobox with ItemTypes
     setupProductLineTable(); // prints the production list
     populateColumns(); // populates columns using arrays.
+    empTxtArea.appendText(employee.toString()); // fills the employee tab with information
     closeConnection();
 
 

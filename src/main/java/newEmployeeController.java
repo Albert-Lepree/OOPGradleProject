@@ -28,6 +28,11 @@ public class newEmployeeController {
   @FXML
   private PasswordField password;
 
+  /*------------------------------------------------------
+    createNewAccount:
+    takes the values entered and adds an employee to the
+    database using the values, so that the user may login.
+  --------------------------------------------------------*/
   @FXML
   void createNewAccount(ActionEvent event) throws IOException {
 
