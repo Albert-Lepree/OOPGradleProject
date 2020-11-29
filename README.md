@@ -30,28 +30,25 @@ Database Diagram <br />
 
 ## Getting Started
 
-Instructions to get a copy of the project up and running on someone's local machine for development and testing purposes.
-<br />
-Note for real project: You want to be able to share your project and enable collaboration. 
-<br />
-Note for school project: You want a potential client or hirer to be able to run your program. 
+• RUN THE PROGRAM<br />
+• Run -> Edit Configurations -> VM configurations -> paste the text below replacing the PathToYourJavaFXSDK with the path to your JavaFX SDK. You can find this through Windows Explorer (the folder icon). (no C: and forward slashes on a Mac) <br />
+------------------------------------------------------------------------------------------------------------<br />
+--module-path "C:\PathToYourJavaFXSDK\lib" --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web<br />
+------------------------------------------------------------------------------------------------------------<br />
 
 ## Built With
 
-* IDE used  
-* Other software used  
-* Resources used  
-<br />Note for school project: Every section is an opportunity to make an impression. You could briefly add what you know about the IDE and describe your development skills. 
+* Intellij Ultimate edition 
+* Scene Builder  
+* W3 schools MySQL guide 
 
 ## Contributing
 
-This section is more important for real projects but is good to include in school projects. <br />
-One of the main purposes of GitHub and similar services is to provide a means for project collaboration. <br />
-Tell someone how they can contribute to this project.
+I wrote this project completely on my own but I had very specific direction of how to build it from my professor. Additionally, I had help from my professor, the teaching assistants, and even some classmates when I got stuck in certain spots.
 
 ## Author
 
-* Your name
+* Albert Finnegan Lepree
 
 ## License
 
@@ -68,9 +65,9 @@ To choose a license, see https://choosealicense.com/
 
 ## Acknowledgments
 
-* Web sites utilized
-* Classmates who helped
-* Your professor or TA if they helped
+* W3 schools, stack overflow
+* Tyler Krawec, Paul Sullivan, Jose Alvarez
+* My professor and TAs 
 
 ## History
 
