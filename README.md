@@ -26,7 +26,7 @@ Database Diagram <br />
  ![Sample Image](docs/databaseDiagram.PNG)
  
  Class Diagram <br />
-![Sample Image](docs/theclassdiagram.png)
+ ![Sample Image](docs/theclassdiagram.PNG)
 
 ## Getting Started
 
