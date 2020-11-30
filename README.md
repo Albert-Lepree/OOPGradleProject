@@ -40,26 +40,41 @@ Database Diagram <br />
 * Scene Builder  
 * W3 schools MySQL guide 
 
+
 ## Contributing
 
 I wrote this project completely on my own but I had very specific direction of how to build it from my professor. Additionally, I had help from my professor, the teaching assistants, and even some classmates when I got stuck in certain spots.
+
 
 ## Author
 
 * Albert Finnegan Lepree
 
+
 ## License
 
-Public repositories on GitHub are often used to share open source software. For your repository to truly be open source, you'll need to license it so that others are free to use, change, and distribute the software. https://help.github.com/articles/licensing-a-repository/ <br />
-You have the option to choose a license when you first create your repository. </br>
-If you need to create a license for an existing repository...
-1. Go to your repository.
-2. Click on "Create new file" Button.
-3. Type the file name as License.txt or License.md in the input box next to your repository name, a drop down button appears towards right side.
-4. Choose the type of license of your choice.
-5. Click "Commit new file" button at the bottom (Green button)
-Credit https://stackoverflow.com/questions/31639059/how-to-add-license-to-an-existing-github-project <br />
-To choose a license, see https://choosealicense.com/ 
+MIT License
+
+Copyright (c) 2020 xexima61
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 
 ## Acknowledgments
 
@@ -67,12 +82,12 @@ To choose a license, see https://choosealicense.com/
 * Tyler Krawec, Paul Sullivan, Jose Alvarez
 * My professor and TAs 
 
+
 ## History
 
-Information about what has changed. 
+Project Released on 11/29/2020
+
 
 ## Key Programming Concepts Utilized
 
-This section would not necessarily be in a real README.  <br />
-It is a reference for you and a place to impress potential employers with your knowledge. 
-Identify what concepts you utilize so when you need to use them again you will know that you will find them here. Include a brief description of the concepts in your own words to help you prepare for related interview questions. 
+This Project taught me a substantial amount about not only programming concepts but also documentation. This is the first readme I have ever created and ther first time I've used git branches in a project. Additionally, I learned about many object oriented programming concepts such as inheritance, polymorphism, encapsulation, etc.. I also learned many things about MySQL and how to integrate it using java. For this project we also used concepts such as regex to compare strings, as well as lambdas and static variables. The project was mostly centered around using gradle and JavaFX to integrate it all into a GUI.
